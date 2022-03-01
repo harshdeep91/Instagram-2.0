@@ -1,10 +1,10 @@
-import {Fragment} from "react";
-import Link from 'next/link'
 import Header from "../components/Header";
+import Feed from "../components/Feed";
 function Homepage(params) {
   return (
       <>
-        <Header/>
+      <Header />
+      <Feed/>
       </>
     );
 }
