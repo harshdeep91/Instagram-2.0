@@ -9,7 +9,10 @@ import {
   MenuIcon,
 } from '@heroicons/react/outline'
 import { HomeIcon } from "@heroicons/react/solid";
+import { signIn, signOut, useSession } from "next-auth/react";
 const Header = () => {
+  const { data: session } = useSession();
+  // console.log(session);
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
         <div className='flex justify-between max-w-6xl mx-5 lg:mx-auto'>
@@ -31,17 +34,30 @@ const Header = () => {
         </div>
         {/* right */}
         <div className="flex items-center justify-end space-x-4">
-
           <HomeIcon className="navbtn" />
           <MenuIcon className="h-6 md:hidden cursor-pointer" />
-          <div className="relative navbtn">
-            <PaperAirplaneIcon className="navbtn rotate-45" />
-            <div className="absolute bg-red-500 rounded-full h-5 w-5 flex items-center justify-center -top-1 -right-3 text-xs text-white animate-pulse">3</div>
-            </div>
-          <PlusCircleIcon className="navbtn" />
-          <UserGroupIcon className="navbtn" />
-          <HeartIcon className="navbtn" />
-          <img src="https://www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-3.jpg" alt="profile pic" className="h-10 rounded-full cursor-pointer"/>
+        {
+          session ? (
+          <>
+          
+              <div className="relative navbtn">
+                <PaperAirplaneIcon className="navbtn rotate-45" />
+                <div className="absolute bg-red-500 rounded-full h-5 w-5 flex items-center justify-center -top-1 -right-3 text-xs text-white animate-pulse">3</div>
+                </div>
+              <PlusCircleIcon className="navbtn" />
+              <UserGroupIcon className="navbtn" />
+              <HeartIcon className="navbtn" />
+                <img
+                  onClick={signOut}
+                  src={session.user.image}
+                   alt="profile pic" className="h-10 w-10 rounded-full cursor-pointer" />
+           
+          </>
+            ) : (
+                <button onClick={signIn}>Sign In</button>
+        )
+          
+        }
         </div>
       </div>
       </div>
