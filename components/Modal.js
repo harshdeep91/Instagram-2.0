@@ -41,8 +41,8 @@ const Modal = () => {
                         </Transition.Child>
                 </Transition.Child>
              </div>
-            </Dialog>
-        </Transition.Root >
+              </Dialog>
+            </Transition.Root>
   )
 }
 
