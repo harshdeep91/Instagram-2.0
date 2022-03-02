@@ -10,18 +10,27 @@ import {
 } from '@heroicons/react/outline'
 import { HomeIcon } from "@heroicons/react/solid";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import modalState from "../atoms/modalAtom";
 const Header = () => {
   const { data: session } = useSession();
+  const [open, setOpen] = useRecoilState(modalState);
+  //const open = useRecoilValue(modalState); if read only value needed
   // console.log(session);
+  const router = useRouter();
+  function handler() {
+    router.push('/');
+  }
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
         <div className='flex justify-between max-w-6xl mx-5 lg:mx-auto'>
               {/* left */}
             <div className="relative hidden w-24 lg:inline-grid cursor-pointer">
-            <Image src="https://links.papareact.com/ocw" layout='fill' objectFit="contain"/>
+            <Image onClick={handler} src="https://links.papareact.com/ocw" layout='fill' objectFit="contain"/>
               </div>
               <div className="relative  w-10 lg:hidden flex-shrink-0 cursor-pointer">
-            <Image src="https://links.papareact.com/jjm" layout='fill' objectFit="contain"/>
+            <Image onClick={handler} src="https://links.papareact.com/jjm" layout='fill' objectFit="contain"/>
               </div>
       {/* middle */}
       <div className=" max-w-xs">
@@ -34,7 +43,7 @@ const Header = () => {
         </div>
         {/* right */}
         <div className="flex items-center justify-end space-x-4">
-          <HomeIcon className="navbtn" />
+          <HomeIcon onClick={handler} className="navbtn" />
           <MenuIcon className="h-6 md:hidden cursor-pointer" />
         {
           session ? (
@@ -44,7 +53,7 @@ const Header = () => {
                 <PaperAirplaneIcon className="navbtn rotate-45" />
                 <div className="absolute bg-red-500 rounded-full h-5 w-5 flex items-center justify-center -top-1 -right-3 text-xs text-white animate-pulse">3</div>
                 </div>
-              <PlusCircleIcon className="navbtn" />
+              <PlusCircleIcon onClick={()=>setOpen(true)} className="navbtn" />
               <UserGroupIcon className="navbtn" />
               <HeartIcon className="navbtn" />
                 <img
