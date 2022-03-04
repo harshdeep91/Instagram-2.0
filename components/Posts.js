@@ -1,36 +1,39 @@
-import Post from "./Post"
-const DummyData = [
-  {
-    id: 1,
-    username: "hars",
-    userimg: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    img: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    caption: "This is Dope",
-  },
-  {
-    id: 2,
-    username: "hars",
-    userimg: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    img: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    caption: "This is Dope",
-  },
-  {
-    id: 3,
-    username: "hars",
-    userimg: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    img: "http://www.classicaloasis.com/wp-content/uploads/2014/03/profile-square.jpg",
-    caption: "This is Dope",
-   } 
-]
-const Posts = () => {
+import Post from "./Post";
+import { useEffect, useState } from "react";
+import { onSnapshot, query, collection, orderBy } from "@firebase/firestore";
+import { db } from "../firebase";
+
+function Posts() {
+  //variables\\
+  const [posts, setPosts] = useState([]);
+
+  //Methods\\
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "posts"), orderBy("timestamp", "desc")),
+        (snapshot) => {
+          setPosts(snapshot.docs);
+        }
+      ),
+    [db]
+  );
+
   return (
+    /* html and css */
     <div>
-      {
-        DummyData.map(post =>
-          <Post key={post.id} username={post.username} userimg={post.userimg} img={post.img} caption={post.caption}/>)
-      }
+      {posts.map((element) => (
+        <Post
+          key={element.id}
+          id={element.id}
+          username={element.data().username}
+          userImg={element.data().profileImg}
+          img={element.data().image}
+          caption={element.data().caption}
+        />
+      ))}
     </div>
-  )
+  );
 }
 
-export default Posts
+export default Posts;
