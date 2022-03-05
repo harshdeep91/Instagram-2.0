@@ -98,7 +98,6 @@ function Post({ id, username, userimg, img, caption }) {
               <span className="font-bold mr-1">{username}</span>{caption}
           </p>
       {/* comments */}
-      {console.log(hasliked)}
       {comments.length > 0 && (
         <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
           {comments.map((comment) => (
