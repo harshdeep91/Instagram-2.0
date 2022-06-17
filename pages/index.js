@@ -8,6 +8,7 @@ function Homepage(params) {
       <Header />
       <Feed />
       <Modal/>
+    
       </div>
     );
 }
